@@ -1,4 +1,5 @@
 <?php
+session_start();
 $target_dir = "user_uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
@@ -17,7 +18,7 @@ $db = $mongo->myfiles;
 
 // GridFS
 $gridFS = $db->getGridFS();     
-$id=$gridFS->storeUpload('fileToUpload', array('username' => 'format'));
+$id=$gridFS->storeUpload('fileToUpload', array('username' => $_SESSION["username"]));
 
  echo $id;
 

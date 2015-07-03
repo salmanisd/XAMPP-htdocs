@@ -7,7 +7,7 @@ $_SESSION["username"] =$_POST['user_name'];
 $_SESSION["password"] = $_POST['user_password'];
 
 // Connect to Mongo 
-$mongo = new Mongo();
+$mongo = new Mongo();//
 
 //select database
 $db = $mongo->myfiles;

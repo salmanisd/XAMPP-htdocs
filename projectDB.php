@@ -1,5 +1,4 @@
 
-
 <?php 
 
 session_start();
@@ -72,8 +71,8 @@ exit("Invalid username/password");
 </div>
 
 <div id="nav">
-<a href="index.php">Project Workspace</a><br><br>
-<a href="login.php">User Workspace</a><br><br>
+<a href="projectDB.php">Project Workspace</a><br><br>
+<a href="userWS.php">User Workspace</a><br><br>
 Logout<br><br>
 </div>
 
