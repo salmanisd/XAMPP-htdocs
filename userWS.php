@@ -86,16 +86,20 @@ $db = $mongo->myfiles;
 // search for user files
 $userfiles = array('username' => $_SESSION["username"]);
 // GridFS
-$gridFS = $db->getGridFS();   
+$gridFS = $db->getGridFS();  
+$collection = $db->fs->files; 
 $cursor = $gridFS->find($userfiles);
 
 $SerialNumber=1;
 
     foreach ($cursor as $obj)// iterate through the results
  {                   
-	
 
-echo "<a href=download.php?file=".$obj->getFilename().">Download</a> ";
+$idd=$obj->file['_id'] ;
+//echo $idd;
+
+ //var_dump($obj);
+echo "<a href=download.php?file=".$idd.">Download</a> ";
 
         echo $SerialNumber.') '.'Filename: '.$obj->getFilename().' Size: '.$obj->getSize().'<br/>';
 	$SerialNumber++;

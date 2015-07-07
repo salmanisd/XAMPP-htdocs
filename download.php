@@ -9,15 +9,14 @@ $gridFS = $db->getGridFS();
 
 
 $request = $_GET['file'];
-$file=$gridFS->findOne($request);
+$file=$gridFS->findOne(array('_id' => new MongoID ($request) ));
 
-//header ("Content-type: octet/stream");
-//header ("Content-disposition: attachment; filename=".$file.";");
-//header("Content-Length: ".filesize($file));
+$filename=$file->getFilename();
+
+
     header('Content-Type: image/bmp');
-    header('Content-Disposition: attachment; filename='.$request);
-//readfile($file);
-//exit;
+    header('Content-Disposition: attachment; filename='.$filename);
+
 
 
 
