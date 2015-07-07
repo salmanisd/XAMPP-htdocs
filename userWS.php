@@ -75,7 +75,7 @@ exit("Invalid username/password");
 <a href="userWS.php">User Workspace</a><br><br>
 Logout<br><br>
 </div>
-
+<a href='download.php'>(Test.pdf)</a>
 <div id="section">
 <h2>User Workspace</h2>
 
@@ -83,16 +83,20 @@ Logout<br><br>
 //select database
 $db = $mongo->myfiles;
 
-// search for fruits
-$fruitQuery = array('username' => $_SESSION["username"]);
+// search for user files
+$userfiles = array('username' => $_SESSION["username"]);
 // GridFS
 $gridFS = $db->getGridFS();   
-$cursor = $gridFS->find($fruitQuery);
+$cursor = $gridFS->find($userfiles);
 
 $SerialNumber=1;
+
     foreach ($cursor as $obj)// iterate through the results
  {                   
 	
+
+echo "<a href=download.php?file=".$obj->getFilename().">Download</a> ";
+
         echo $SerialNumber.') '.'Filename: '.$obj->getFilename().' Size: '.$obj->getSize().'<br/>';
 	$SerialNumber++;
     }
