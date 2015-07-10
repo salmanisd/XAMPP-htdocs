@@ -8,7 +8,7 @@ $db = $mongo->myfiles;
 $gridFS = $db->getGridFS();     
 
 
-$request = $_GET['file'];
+$request = $_GET['id'];
 $file=$gridFS->findOne(array('_id' => new MongoID ($request) ));
 
 $filename=$file->getFilename();

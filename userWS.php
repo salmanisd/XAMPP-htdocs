@@ -99,7 +99,7 @@ $idd=$obj->file['_id'] ;
 //echo $idd;
 
  //var_dump($obj);
-echo "<a href=download.php?file=".$idd.">Download</a> ";
+echo "<a href=download.php?id=".$idd.">Download</a> ";
 
         echo $SerialNumber.') '.'Filename: '.$obj->getFilename().' Size: '.$obj->getSize().'<br/>';
 	$SerialNumber++;
