@@ -1,4 +1,4 @@
-<form action="index1.php" method="POST">
+<form action="index.php" method="POST">
 <fieldset >
 <legend>Login</legend>
 User Name:

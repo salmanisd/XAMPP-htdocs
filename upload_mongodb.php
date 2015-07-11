@@ -1,10 +1,5 @@
 <?php
 session_start();
-$target_dir = "user_uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-
 
 // Connect to Mongo 
 $mongo = new Mongo();
@@ -17,10 +12,12 @@ $db = $mongo->myfiles;
 //$collection=$db->hiwicollection;     
 
 // GridFS
+$fileext= end((explode(".", $_FILES['fileToUpload']['name'])));
 $gridFS = $db->getGridFS();     
-$id=$gridFS->storeUpload('fileToUpload', array('username' => $_SESSION["username"]));
+$id=$gridFS->storeUpload('fileToUpload', array('username' => $_SESSION["username"],'extension'=>$fileext));
 
- echo $id;
+header('Location: projectDB.php');    
+
 
 
 

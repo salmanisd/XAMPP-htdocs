@@ -1,16 +1,22 @@
+<?php
+
+session_start();
+
+?>
+
 <!doctype html>
 
 <html>
 <head>
    <meta charset="UTF-8">
    <link rel="shortcut icon" href="./.favicon.ico">
-   <title>Directory Contents</title>
+   <title>Database</title>
 
    <link rel="stylesheet" href="./.style.css">
    <script src="./.sorttable.js"></script>
 </head>
 
-
+<?php echo '<div style="Color:red">'.$_SESSION["username"].'->User Workspace'.'</div>';?>
 
 
 <body>
@@ -52,10 +58,12 @@ li {
 			<th>Type</th>
 			<th>Size</th>
 			<th>Date Modified</th>
+			<th>Owner</th>
 		</tr>
 	    </thead>
-	    <tbody><?php
+	    <tbody>
 
+<?php
 // Connect to Mongo 
 $mongo = new Mongo();
 
@@ -63,7 +71,7 @@ $mongo = new Mongo();
 $db = $mongo->myfiles;
 
 // search for user files
-$userfiles = array('username' => 'salman');
+$userfiles = array('username' => $_SESSION["username"]);
 // GridFS
 $gridFS = $db->getGridFS();  
 $collection = $db->fs->files; 
@@ -100,9 +108,10 @@ $cursor = $gridFS->find($userfiles);
 	foreach ($cursor as $obj) {
 
 	$objID=$obj->file['_id'] ;
+	$objUSER=$obj->file['username'];
 
 	//Get Upload Date	
-	$uploadDate=date('h:i:s m/d/y', $obj->file['uploadDate']->sec);
+	$uploadDate=date('H:i:s d/m/y', $obj->file['uploadDate']->sec);
 	$uploadDatekey=date("YmdHis", $obj->file['uploadDate']->sec);
 
 	// Resets Variables
@@ -119,38 +128,38 @@ $cursor = $gridFS->find($userfiles);
 	// File-only operations
 		{
 			// Gets file extension
-			$extn='png';
+			$objEXT=$obj->file['extension'];
 
 			// Prettifies file type
-			switch ($extn){
-				case "png": $extn="PNG Image"; break;
-				case "jpg": $extn="JPEG Image"; break;
-				case "jpeg": $extn="JPEG Image"; break;
-				case "svg": $extn="SVG Image"; break;
-				case "gif": $extn="GIF Image"; break;
-				case "ico": $extn="Windows Icon"; break;
+			switch ($objEXT){
+				case "png": $objEXT="PNG Image"; break;
+				case "jpg": $objEXT="JPEG Image"; break;
+				case "jpeg": $objEXT="JPEG Image"; break;
+				case "svg": $objEXT="SVG Image"; break;
+				case "gif": $objEXT="GIF Image"; break;
+				case "ico": $objEXT="Windows Icon"; break;
+				case "bmp": $objEXT="BMP Image"; break;
+				case "txt": $objEXT="Text File"; break;
+				case "log": $objEXT="Log File"; break;
+				case "htm": $objEXT="HTML File"; break;
+				case "html": $objEXT="HTML File"; break;
+				case "xml": $objEXT="XML Document"; break;
+				case "m": $objEXT="MATLAB File"; break;
+				case "php": $objEXT="PHP Script"; break;
+				case "vsdx": $objEXT="Microsoft Visio Document"; break;
+				case "css": $objEXT="Stylesheet"; break;
 
-				case "txt": $extn="Text File"; break;
-				case "log": $extn="Log File"; break;
-				case "htm": $extn="HTML File"; break;
-				case "html": $extn="HTML File"; break;
-				case "xhtml": $extn="HTML File"; break;
-				case "shtml": $extn="HTML File"; break;
-				case "php": $extn="PHP Script"; break;
-				case "js": $extn="Javascript File"; break;
-				case "css": $extn="Stylesheet"; break;
+				case "pdf": $objEXT="PDF Document"; break;
+				case "xls": $objEXT="Spreadsheet"; break;
+				case "xlsx": $objEXT="Spreadsheet"; break;
+				case "doc": $objEXT="Microsoft Word Document"; break;
+				case "docx": $objEXT="Microsoft Word Document"; break;
 
-				case "pdf": $extn="PDF Document"; break;
-				case "xls": $extn="Spreadsheet"; break;
-				case "xlsx": $extn="Spreadsheet"; break;
-				case "doc": $extn="Microsoft Word Document"; break;
-				case "docx": $extn="Microsoft Word Document"; break;
+				case "zip": $objEXT="ZIP Archive"; break;
+				case "htaccess": $objEXT="Apache Config File"; break;
+				case "exe": $objEXT="Windows Executable"; break;
 
-				case "zip": $extn="ZIP Archive"; break;
-				case "htaccess": $extn="Apache Config File"; break;
-				case "exe": $extn="Windows Executable"; break;
-
-				default: if($extn!=""){$extn=strtoupper($extn)." File";} else{$extn="Unknown";} break;
+				default: if($objEXT!=""){$objEXT=strtoupper($objEXT)." File";} else{$objEXT="Unknown";} break;
 			}
 
 			// Gets and cleans up file size
@@ -163,9 +172,10 @@ $cursor = $gridFS->find($userfiles);
 	 echo("
 		<tr class='$class'>
 			<td><a href=download.php?id=".$objID.">$name</a></td>
-			<td><a href=download.php?id=".$objID.">$extn</a></td>
+			<td><a href=download.php?id=".$objID.">$objEXT</a></td>
 			<td sorttable_customkey='$sizekey'><a href=download.php?id=".$objID.">$size</a></td>
 			<td sorttable_customkey='$uploadDatekey'><a href=download.php?id=".$objID.">$uploadDate</a></td>
+			<td><a href=download.php?id=".$objID.">$objUSER</a></td>
 		</tr>");
 	   }
 	}
