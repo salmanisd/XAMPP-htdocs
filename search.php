@@ -3,7 +3,6 @@
 session_start();
 if (!$_SESSION["username"])
 exit ("Please Login");
-
 ?>
 
 <!doctype html>
@@ -18,8 +17,8 @@ exit ("Please Login");
    <script src="./.sorttable.js"></script>
 </head>
 
+<?php echo '<div style="Color:red">'.$_SESSION["username"].'->User Workspace'.'</div>';?>
 
-<?php echo '<div style="Color:red">'.$_SESSION["username"].'->Project Workspace'.'</div>';?>
 
 <body>
 
@@ -38,32 +37,13 @@ li {
 }
 </style>
 </head>
-
 <body>
 
 <ul>
 
    <li><a href="projectDB.php">Project Workspace |</a></li>
   <li><a href="userWS.php">User Workspace |</a></li>
-  <li><a href="logout.php">Logout |</a></li>
-
-<div>
-<br>
-<form style="float: left;" action="upload_mongodb.php" method="post" enctype="multipart/form-data">
-    Select file to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload File" name="submit">
-</form>
-<form action="search.php" method="post" enctype="multipart/form-data" align=right>
-  Search Database:
-    <input type="text" name="filename" id="filename">
-    <input type="submit" value="Search" name="submit" align="right">
-</form>
-
-</div>
-<div>
-
-</div>
+  <li><a href="/js/default.asp">Logout |</a></li>
 </ul>
 
 </body>
@@ -75,31 +55,31 @@ li {
 	<table class="sortable">
 	    <thead>
 		<tr>
-			
-			<th>Filename</th>			
+			<th></th>
+			<th>Filename</th>
 			<th>Type</th>
 			<th>Size</th>
 			<th>Date Modified</th>
 			<th>Owner</th>
-			
 		</tr>
 	    </thead>
 	    <tbody>
+
 <?php
+
+$request=$_POST['filename'];
+echo "Searched for ".$request;
 
 // Connect to Mongo 
 $mongo = new Mongo();
 
 //select database
 $db = $mongo->myfiles;
-
-
+    
 // GridFS
-// GridFS
-$gridFS = $db->getGridFS();   
- $cursor = $gridFS->find(); 
-
-
+$gridFS = $db->getGridFS();     
+$cursor=$gridFS->find(array('filename'=> array('$regex' => new MongoRegex("/$request/i"))));
+    
 
 
 	// Adds pretty filesizes
@@ -190,16 +170,16 @@ $gridFS = $db->getGridFS();
 				$sizekey=$obj->getSize();
 		
 
+	// Output
 	 echo("
 		<tr class='$class'>
-		
+			<td><a href=delete.php?id=".$objID."><img src=del_icon.png width=16 height=16 align=top></a></td>
 			<td><a href=download.php?id=".$objID.">$name</a></td>
 			<td><a href=download.php?id=".$objID.">$objEXT</a></td>
 			<td sorttable_customkey='$sizekey'><a href=download.php?id=".$objID.">$size</a></td>
 			<td sorttable_customkey='$uploadDatekey'><a href=download.php?id=".$objID.">$uploadDate</a></td>
 			<td><a href=download.php?id=".$objID.">$objUSER</a></td>
-		</tr> ");
-
+		</tr>");
 	   }
 	}
 	?>
@@ -211,4 +191,3 @@ $gridFS = $db->getGridFS();
 </div>
 </body>
 </html>
-

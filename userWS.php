@@ -1,7 +1,8 @@
 <?php
 
 session_start();
-
+if (!$_SESSION["username"])
+exit ("Please Login");
 ?>
 
 <!doctype html>
@@ -42,7 +43,7 @@ li {
 
    <li><a href="projectDB.php">Project Workspace |</a></li>
   <li><a href="userWS.php">User Workspace |</a></li>
-  <li><a href="/js/default.asp">Logout |</a></li>
+  <li><a href="logout.php">Logout |</a></li>
 </ul>
 
 </body>
@@ -54,6 +55,7 @@ li {
 	<table class="sortable">
 	    <thead>
 		<tr>
+			<th></th>
 			<th>Filename</th>
 			<th>Type</th>
 			<th>Size</th>
@@ -171,6 +173,7 @@ $cursor = $gridFS->find($userfiles);
 	// Output
 	 echo("
 		<tr class='$class'>
+			<td><a href=delete.php?id=".$objID."><img src=del_icon.png width=16 height=16 align=top></a></td>
 			<td><a href=download.php?id=".$objID.">$name</a></td>
 			<td><a href=download.php?id=".$objID.">$objEXT</a></td>
 			<td sorttable_customkey='$sizekey'><a href=download.php?id=".$objID.">$size</a></td>
