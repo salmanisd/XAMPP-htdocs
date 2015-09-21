@@ -49,12 +49,13 @@ li {
   <li><a href="wg4.php">Working Group 4 |</a></li>
   <li><a href="logout.php">Logout |</a></li>
 </ul>
-
+<b>Members</b><br>
+<p style="font-family:courier"><b>[PLACE HOLDER]A1.1 , A1.2 , A2.2 , A4 , A5 , B5 , C1.1 , C3.2 , D1.1 , D1.2 , T4</b></p>
 </body>
 
 
 </div>
-	
+	<br><br><br><br><br><br><br><br>
 
 	<table class="sortable">
 	    <thead>
