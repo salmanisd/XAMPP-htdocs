@@ -45,6 +45,10 @@ li {
 
    <li><a href="projectDB.php">Project Workspace |</a></li>
   <li><a href="userWS.php">User Workspace |</a></li>
+  <li><a href="wg1.php">Working Group 1 |</a></li>
+  <li><a href="wg2.php">Working Group 2 |</a></li>
+  <li><a href="wg3.php">Working Group 3 |</a></li>
+  <li><a href="wg4.php">Working Group 4 |</a></li>
   <li><a href="logout.php">Logout |</a></li>
 
 <div>
@@ -52,7 +56,12 @@ li {
 <form style="float: left;" action="upload_mongodb.php" method="post" enctype="multipart/form-data">
     Select file to upload:
     <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload File" name="submit">
+    <input type="submit" value="Upload File" name="submit"><br>
+	<i>Share file with</i>   
+	WorkingGroup 1 <input type="checkbox" name="workinggroup[]" value="WG1" />
+	WorkingGroup 2 <input type="checkbox" name="workinggroup[]" value="WG2" />
+	WorkingGroup 3 <input type="checkbox" name="workinggroup[]" value="WG3" />
+	WorkingGroup 4 <input type="checkbox" name="workinggroup[]" value="WG4" /><br>
 </form>
 <form action="search.php" method="post" enctype="multipart/form-data" align=right>
   Search Database:
@@ -70,11 +79,11 @@ li {
 
 
 </div>
-	
+	<br><br><br><br><br><br><br><br>
 
 	<table class="sortable">
 	    <thead>
-		<tr>
+
 			
 			<th>Filename</th>			
 			<th>Type</th>

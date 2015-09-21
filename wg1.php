@@ -77,7 +77,8 @@ $mongo = new Mongo();
 $db = $mongo->myfiles;
 
 // search for user files
-$userfiles = array('username' => $_SESSION["username"]);
+$arr_wg='WG1';
+$userfiles = array('workinggroup' => $arr_wg);
 // GridFS
 $gridFS = $db->getGridFS();  
 $collection = $db->fs->files; 

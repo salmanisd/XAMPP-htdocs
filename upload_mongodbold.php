@@ -9,24 +9,14 @@ $db = $mongo->myfiles;
 
 
 //select connection
-//$collection=$db->hiwicollection;     
+$collection=$db->hiwicollection;     
 
-// GridFS 
-$arr_wg = $_POST['workinggroup'];
-$numberofwg = count($arr_wg);
-
+// GridFS
 $fileext= end((explode(".", $_FILES['fileToUpload']['name'])));
 $gridFS = $db->getGridFS();     
+$id=$gridFS->storeUpload('fileToUpload', array('username' => $_SESSION["username"],'extension'=>$fileext));
 
-$id=$gridFS->storeUpload('fileToUpload', array(
-											'username' => $_SESSION["username"],
-											'extension'=>$fileext,
-											'workinggroup'=>$arr_wg
-																		));
-
-header('Location: projectDB.php');   
- 
-
+header('Location: projectDB.php');    
 
 
 
