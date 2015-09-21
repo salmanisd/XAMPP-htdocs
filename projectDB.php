@@ -89,6 +89,7 @@ li {
 			<th>Type</th>
 			<th>Size</th>
 			<th>Date Modified</th>
+			<th>Shared in</th>
 			<th>Owner</th>
 			
 		</tr>
@@ -140,6 +141,8 @@ $gridFS = $db->getGridFS();
 
 	$objID=$obj->file['_id'] ;
 	$objUSER=$obj->file['username'];
+	$objWGarray=$obj->file['workinggroup'];
+	$objWG=implode(",",(array)$objWGarray);
 
 	//Get Upload Date	
 	$uploadDate=date('H:i:s d/m/y', $obj->file['uploadDate']->sec);
@@ -206,6 +209,7 @@ $gridFS = $db->getGridFS();
 			<td><a href=download.php?id=".$objID.">$objEXT</a></td>
 			<td sorttable_customkey='$sizekey'><a href=download.php?id=".$objID.">$size</a></td>
 			<td sorttable_customkey='$uploadDatekey'><a href=download.php?id=".$objID.">$uploadDate</a></td>
+			<td><a href=download.php?id=".$objID.">$objWG</a></td>
 			<td><a href=download.php?id=".$objID.">$objUSER</a></td>
 		</tr> ");
 
