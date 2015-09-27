@@ -1,4 +1,19 @@
 <?php
+// Connect to Mongo 
+$mongo = new Mongo();
+//select database
+$db = $mongo->myfiles;
+     
+$collection = $db->userlist;
+
+if ( isset($_GET['id']))
+{
+	$request = $_GET['id'];
+$del=$collection->remove(array('_id'=>new MongoID ($request) ));;
+
+header('Location: adminpanel.php'); 
+	
+}
 
 $arr_wg = $_POST["workinggroup"];
 
@@ -6,10 +21,6 @@ if ( !empty($_POST["username"]) && !empty($_POST["pwd"]) && !empty($_POST["confp
 {
 	if ($_POST["pwd"]==$_POST["confpwd"])
 	{	
-			$m = new MongoClient(); 			 // connect to mongodb
-			$db = $m->myfiles;					// select a database
-			$collection = $db->userlist;
-			
 			$document = array( 
 			"user" => $_POST["username"], 
 			"password" => $_POST["pwd"], 
@@ -35,20 +46,5 @@ else
 }
 
 
-   // connect to mongodb
-   $m = new MongoClient();
-   // select a database
-   $db = $m->myfiles;
-   $collection = $db->userlist;
-
-
-
-/*
-   $document = array( 
-      "user" => "admin", 
-      "password" => "admin123", 
-   
-   );
-   $collection->insert($document);*/
    
 ?>

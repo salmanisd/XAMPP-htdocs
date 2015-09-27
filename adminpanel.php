@@ -22,7 +22,7 @@
     </head>
     <body>
         <div id="container">
-            <form action="adduser.php" method="post">
+            <form action="userconfig.php" method="post">
                 <h1>Create Account</h1>
                 <div class="line"><label for="username">Username *: </label><input type="text" name="username" /></div>
                 <div class="line"><label for="pwd">Password *: </label><input type="password" name="pwd" /></div>
@@ -86,7 +86,7 @@ $objWG=implode(",",(array)$objWGarray);
 			<td>$objID</a></td>
 			<td>$objUSER</a></td>
 			<td>$objWG</a></td>
-			<td><a href=ap_deluser.php?id=".$objID."><img src=del_icon.png width=16 height=16 align=top></a></td>
+			<td><a href=userconfig.php?id=".$objID."><img src=del_icon.png width=16 height=16 align=top></a></td>
 			
 		</tr>");
   
