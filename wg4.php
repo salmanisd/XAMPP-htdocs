@@ -49,7 +49,28 @@ li {
   <li><a href="wg4.php">Working Group 4 |</a></li>
   <li><a href="logout.php">Logout |</a></li>
 </ul>
+<b>Members</b><br>
+<p style="font-family:courier"><b>
+<?php 
 
+$mongo = new Mongo();
+$db = $mongo->myfiles;
+
+$collection = $db->userlist;
+$arr_wg='WG4';
+$user = array('workinggroup' => $arr_wg);
+$cursor = $collection->find($user);
+
+foreach ($cursor as $obj){ 
+
+$objUSER=$obj["user"];
+echo $objUSER."\n";
+}
+?></b>
+
+
+
+</p>
 </body>
 
 

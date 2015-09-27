@@ -50,7 +50,27 @@ li {
   <li><a href="logout.php">Logout |</a></li>
 </ul>
 <b>Members</b><br>
-<p style="font-family:courier"><b>[PLACE HOLDER]A1.1 , A1.2 , A2.2 , A4 , A5 , B5 , C1.1 , C3.2 , D1.1 , D1.2 , T4</b></p>
+<p style="font-family:courier"><b>
+<?php 
+
+$mongo = new Mongo();
+$db = $mongo->myfiles;
+
+$collection = $db->userlist;
+$arr_wg='WG1';
+$user = array('workinggroup' => $arr_wg);
+$cursor = $collection->find($user);
+
+foreach ($cursor as $obj){ 
+
+$objUSER=$obj["user"];
+echo $objUSER."\n";
+}
+?></b>
+
+
+
+</p>
 </body>
 
 
@@ -72,11 +92,7 @@ li {
 	    <tbody>
 
 <?php
-// Connect to Mongo 
-$mongo = new Mongo();
 
-//select database
-$db = $mongo->myfiles;
 
 // search for user files
 $arr_wg='WG1';
