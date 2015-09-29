@@ -3,6 +3,7 @@
 session_start();
 if (!$_SESSION["username"])
 exit ("Please Login");
+
 ?>
 
 <!doctype html>
@@ -17,8 +18,8 @@ exit ("Please Login");
    <script src="./.sorttable.js"></script>
 </head>
 
-<?php echo '<div style="Color:red">'.$_SESSION["username"].'->User Workspace'.'</div>';?>
 
+<?php echo '<div style="Color:red">'.$_SESSION["username"].'->User Workspace'.'</div>';?>
 
 <body>
 
@@ -37,17 +38,41 @@ li {
 }
 </style>
 </head>
+
 <body>
 
 <ul>
 
-   <li><a href="projectDB.php">Project Workspace |</a></li>
+  <li><a href="projectDB.php">Project Workspace |</a></li>
   <li><a href="userWS.php">User Workspace |</a></li>
-  <li><a href="wg1.php">Working Group 1 |</a></li>
-  <li><a href="wg2.php">Working Group 2 |</a></li>
-  <li><a href="wg3.php">Working Group 3 |</a></li>
-  <li><a href="wg4.php">Working Group 4 |</a></li>
+  <li><a href="wg.php?id=WG1">Working Group 1 |</a></li>
+  <li><a href="wg.php?id=WG2">Working Group 2 |</a></li>
+  <li><a href="wg.php?id=WG3">Working Group 3 |</a></li>
+  <li><a href="wg.php?id=WG4">Working Group 4 |</a></li>
   <li><a href="logout.php">Logout |</a></li>
+
+<div>
+<br>
+<form style="float: left;" action="upload_mongodb.php" method="post" enctype="multipart/form-data">
+    Select file to upload:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="submit" value="Upload File" name="submit"><br>
+	<i>Share file with</i>   
+	WorkingGroup 1 <input type="checkbox" name="workinggroup[]" value="WG1" />
+	WorkingGroup 2 <input type="checkbox" name="workinggroup[]" value="WG2" />
+	WorkingGroup 3 <input type="checkbox" name="workinggroup[]" value="WG3" />
+	WorkingGroup 4 <input type="checkbox" name="workinggroup[]" value="WG4" /><br>
+</form>
+<form action="search.php" method="post" enctype="multipart/form-data" align=right>
+  Search Database:
+    <input type="text" name="filename" id="filename">
+    <input type="submit" value="Search" name="submit" align="right">
+</form>
+
+</div>
+<div>
+
+</div>
 </ul>
 
 </body>
@@ -58,18 +83,20 @@ li {
 
 	<table class="sortable">
 	    <thead>
-		<tr>
-			<th></th>
-			<th>Filename</th>
+
+			
+			<th>Filename</th>			
 			<th>Type</th>
 			<th>Size</th>
 			<th>Date Modified</th>
+			<th>Shared in</th>
 			<th>Owner</th>
+			
 		</tr>
 	    </thead>
 	    <tbody>
-
 <?php
+
 // Connect to Mongo 
 $mongo = new Mongo();
 
@@ -83,7 +110,7 @@ $gridFS = $db->getGridFS();
 $collection = $db->fs->files; 
 $cursor = $gridFS->find($userfiles);
 
-    
+
 
 
 	// Adds pretty filesizes
@@ -115,6 +142,8 @@ $cursor = $gridFS->find($userfiles);
 
 	$objID=$obj->file['_id'] ;
 	$objUSER=$obj->file['username'];
+	$objWGarray=$obj->file['workinggroup'];
+	$objWG=implode(",",(array)$objWGarray);
 
 	//Get Upload Date	
 	$uploadDate=date('H:i:s d/m/y', $obj->file['uploadDate']->sec);
@@ -174,16 +203,17 @@ $cursor = $gridFS->find($userfiles);
 				$sizekey=$obj->getSize();
 		
 
-	// Output
 	 echo("
 		<tr class='$class'>
-			<td><a href=delete.php?id=".$objID."><img src=del_icon.png width=16 height=16 align=top></a></td>
+		
 			<td><a href=download.php?id=".$objID.">$name</a></td>
 			<td><a href=download.php?id=".$objID.">$objEXT</a></td>
 			<td sorttable_customkey='$sizekey'><a href=download.php?id=".$objID.">$size</a></td>
 			<td sorttable_customkey='$uploadDatekey'><a href=download.php?id=".$objID.">$uploadDate</a></td>
+			<td><a href=download.php?id=".$objID.">$objWG</a></td>
 			<td><a href=download.php?id=".$objID.">$objUSER</a></td>
-		</tr>");
+		</tr> ");
+
 	   }
 	}
 	?>
@@ -195,3 +225,4 @@ $cursor = $gridFS->find($userfiles);
 </div>
 </body>
 </html>
+

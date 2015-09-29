@@ -17,7 +17,24 @@ exit ("Please Login");
    <script src="./.sorttable.js"></script>
 </head>
 
-<?php echo '<div style="Color:red">'.$_SESSION["username"].'->User Workspace'.'</div>';?>
+<?php
+switch ($_GET['id']) {
+    case "WG1":
+       $varWG = $_GET['id'];
+        break;
+    case "WG2":
+      $varWG = $_GET['id'];
+        break;
+    case "WG3":
+       $varWG = $_GET['id'];
+        break;
+	case "WG4":
+       $varWG = $_GET['id'];
+        break;
+}
+
+ echo '<div style="Color:red">'.$_SESSION["username"].'->'.$varWG.'</div>';
+ ?>
 
 
 <body>
@@ -41,23 +58,24 @@ li {
 
 <ul>
 
-   <li><a href="projectDB.php">Project Workspace |</a></li>
+  <li><a href="projectDB.php">Project Workspace |</a></li>
   <li><a href="userWS.php">User Workspace |</a></li>
-  <li><a href="wg1.php">Working Group 1 |</a></li>
-  <li><a href="wg2.php">Working Group 2 |</a></li>
-  <li><a href="wg3.php">Working Group 3 |</a></li>
-  <li><a href="wg4.php">Working Group 4 |</a></li>
+  <li><a href="wg.php?id=WG1">Working Group 1 |</a></li>
+  <li><a href="wg.php?id=WG2">Working Group 2 |</a></li>
+  <li><a href="wg.php?id=WG3">Working Group 3 |</a></li>
+  <li><a href="wg.php?id=WG4">Working Group 4 |</a></li>
   <li><a href="logout.php">Logout |</a></li>
+  
 </ul>
 <b>Members</b><br>
 <p style="font-family:courier"><b>
 <?php 
-
+	
 $mongo = new Mongo();
 $db = $mongo->myfiles;
 
 $collection = $db->userlist;
-$arr_wg='WG1';
+$arr_wg=$varWG;
 $user = array('workinggroup' => $arr_wg);
 $cursor = $collection->find($user);
 
@@ -95,7 +113,7 @@ echo $objUSER."\n";
 
 
 // search for user files
-$arr_wg='WG1';
+$arr_wg=$varWG;
 $userfiles = array('workinggroup' => $arr_wg);
 // GridFS
 $gridFS = $db->getGridFS();  

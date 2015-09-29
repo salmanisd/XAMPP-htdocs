@@ -43,12 +43,12 @@ li {
 
 <ul>
 
-   <li><a href="projectDB.php">Project Workspace |</a></li>
+  <li><a href="projectDB.php">Project Workspace |</a></li>
   <li><a href="userWS.php">User Workspace |</a></li>
-  <li><a href="wg1.php">Working Group 1 |</a></li>
-  <li><a href="wg2.php">Working Group 2 |</a></li>
-  <li><a href="wg3.php">Working Group 3 |</a></li>
-  <li><a href="wg4.php">Working Group 4 |</a></li>
+  <li><a href="wg.php?id=WG1">Working Group 1 |</a></li>
+  <li><a href="wg.php?id=WG2">Working Group 2 |</a></li>
+  <li><a href="wg.php?id=WG3">Working Group 3 |</a></li>
+  <li><a href="wg.php?id=WG4">Working Group 4 |</a></li>
   <li><a href="logout.php">Logout |</a></li>
 
 <div>
